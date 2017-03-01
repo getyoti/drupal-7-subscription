@@ -122,7 +122,7 @@ function yoti_connect_list($form)
     $options = array();
     foreach ($result as $account)
     {
-        $options[$account->uid] = array(
+        $options[$account->id] = array(
             'email_address' => $account->email_address,
             'phone_number' => $account->phone_number,
             'date_of_birth' => $account->date_of_birth,
