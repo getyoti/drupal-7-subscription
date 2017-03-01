@@ -50,7 +50,7 @@ function yoti_connect_install()
 {
     $table_name = YotiConnectHelper::tableName();
     db_query("CREATE TABLE IF NOT EXISTS `{$table_name}` (
-        `uid` int(10) UNSIGNED NOT NULL,
+        `id` INT(10) UNSIGNED AUTO_INCREMENT,
         `identifier` VARCHAR(255) NOT NULL,
         `selfie_filename` VARCHAR(255) NOT NULL,
         `phone_number` VARCHAR(255) NULL,
@@ -61,7 +61,7 @@ function yoti_connect_install()
         `gender` VARCHAR(255) NULL,
         `email_address` VARCHAR(255) NULL,
         `data` TEXT NULL,
-        PRIMARY KEY `uid` (`uid`)
+        PRIMARY KEY `id` (`id`)
     )")->execute();
 }
 

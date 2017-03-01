@@ -97,16 +97,16 @@ function yoti_connect_list($form)
         'gender' => array('data' => 'Gender', 'field' => 'y.gender'),
     );
 
-    $query = db_select('users_yoti', 'y');
-    $query->condition('y.uid', 0, '<>');
+    $query = db_select(YotiConnectHelper::tableName(), 'y');
+    $query->condition('y.id', 0, '<>');
     //    user_build_filter_query($query);
 
     $count_query = clone $query;
-    $count_query->addExpression('COUNT(y.uid)');
+    $count_query->addExpression('COUNT(y.id)');
 
     $query = $query->extend('PagerDefault')->extend('TableSort');
     $query->fields('y', array(
-        'uid',
+        'id',
         'email_address',
         'phone_number',
         'date_of_birth',
@@ -122,24 +122,7 @@ function yoti_connect_list($form)
     $options = array();
     foreach ($result as $account)
     {
-        //        $users_roles = array();
-        //        $roles_result = db_query('SELECT rid FROM {users_roles} WHERE uid = :uid', array(':uid' => $account->uid));
-        //        foreach ($roles_result as $user_role)
-        //        {
-        //            $users_roles[] = $roles[$user_role->rid];
-        //        }
-        //        asort($users_roles);
-
         $options[$account->uid] = array(
-            //            'title' => array(
-            //                'data' => array(
-            //                    '#type' => 'link',
-            //                    '#title' => $account->email_address,
-            //                    '#href' => 'node/' . $account->uid,
-            //                    //                        '#options' => $l_options,
-            //                    //                        '#suffix' => ' ' . theme('mark', array('type' => node_mark($node->nid, $node->changed))),
-            //                ),
-            //            ),
             'email_address' => $account->email_address,
             'phone_number' => $account->phone_number,
             'date_of_birth' => $account->date_of_birth,
@@ -147,19 +130,6 @@ function yoti_connect_list($form)
             'family_name' => $account->family_name,
             'nationality' => $account->nationality,
             'gender' => $account->gender,
-            //            'username' => theme('username', array('account' => $account)),
-            //            'status' => $status[$account->status],
-            //            'roles' => theme('item_list', array('items' => $users_roles)),
-            //            'member_for' => format_interval(REQUEST_TIME - $account->created),
-            //            'access' => $account->access ? t('@time ago', array('@time' => format_interval(REQUEST_TIME - $account->access))) : t('never'),
-            //            'operations' => array(
-            //                'data' => array(
-            //                    '#type' => 'link',
-            //                    '#title' => t('edit'),
-            //                    '#href' => "user/$account->uid/edit",
-            //                    '#options' => array('query' => $destination),
-            //                ),
-            //            ),
         );
     }
 
@@ -198,8 +168,8 @@ function yoti_connect_list($form)
         $ids = !empty($_POST['accounts']) ? $_POST['accounts'] : [];
         if ($ids)
         {
-            $query = db_delete('users_yoti');
-            $query->condition('uid', $ids, 'IN');
+            $query = db_delete(YotiConnectHelper::tableName());
+            $query->condition('id', $ids, 'IN');
             $query->execute();
         }
 
