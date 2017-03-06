@@ -42,6 +42,7 @@ class YotiConnectHelper {
 
     $currentUser = $user;
     $config = self::getConfig();
+//    print_r($config);exit;
     $token = (!empty($_GET['token'])) ? $_GET['token'] : NULL;
 
     // if no token then ignore
@@ -94,7 +95,7 @@ class YotiConnectHelper {
         }
 
         if (!$drupalYotiUid) {
-          if (empty($config['existing_only'])) {
+          if (empty($config['only_existing'])) {
             try {
               $drupalYotiUid = $this->createUser($activityDetails);
             } catch (Exception $e) {
@@ -344,6 +345,7 @@ class YotiConnectHelper {
     return array(
       'yoti_app_id' => variable_get('yoti_app_id'),
       'yoti_sdk_id' => variable_get('yoti_sdk_id'),
+      'only_existing' => variable_get('only_existing'),
       'yoti_pem' => array(
         'name' => $name,
         'contents' => $contents,
