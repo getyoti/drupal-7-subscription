@@ -4,7 +4,6 @@ use Yoti\YotiClient;
 
 require_once __DIR__ . '/sdk/boot.php';
 
-
 /**
  * Class YotiConnectHelper
  *
@@ -346,6 +345,9 @@ class YotiConnectHelper {
       'yoti_app_id' => variable_get('yoti_app_id'),
       'yoti_sdk_id' => variable_get('yoti_sdk_id'),
       'only_existing' => variable_get('only_existing'),
+      'yoti_success_url' => variable_get('yoti_success_url'),
+      'yoti_fail_url' => variable_get('yoti_fail_url'),
+      'connect_email' => variable_get('connect_email'),
       'yoti_pem' => array(
         'name' => $name,
         'contents' => $contents,

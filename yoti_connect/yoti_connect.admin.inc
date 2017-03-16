@@ -43,6 +43,22 @@ function yoti_connect_api_keys_settings($form, &$form_state) {
     '#description' => t('Copy the SDK ID of your Yoti App here'),
   );
 
+    $form['yoti_connect_settings']['success_url'] = array(
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#title' => t('Success URL'),
+        '#default_value' => variable_get('yoti_success_url', '/user'),
+        '#description' => t('Redirect users here if they successfully login with Yoti'),
+    );
+
+    $form['yoti_connect_settings']['fail_url'] = array(
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#title' => t('Fail URL'),
+        '#default_value' => variable_get('yoti_fail_url', '/user'),
+        '#description' => t('Redirect users here if they were unable to login with Yoti'),
+    );
+
   $form['yoti_connect_settings']['yoti_pem'] = array(
     '#type' => 'managed_file',
     '#field_name' => 'yoti_pem',
@@ -62,6 +78,13 @@ function yoti_connect_api_keys_settings($form, &$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Only allow existing Drupal users to link their Yoti account'),
     '#default_value' => variable_get('only_existing'),
+//    '#description' => t('Copy the SDK ID of your Yoti App here'),
+  );
+
+  $form['yoti_connect_settings']['connect_email'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Attempt to link Yoti email address with Drupal account for first time users'),
+    '#default_value' => variable_get('connect_email'),
 //    '#description' => t('Copy the SDK ID of your Yoti App here'),
   );
 
