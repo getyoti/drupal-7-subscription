@@ -88,15 +88,19 @@ class YotiConnectHelper
             // register new user
             if (!$drupalYotiUid) {
                 $errMsg = NULL;
+
                 // attempt to get their user id by email passed from yoti
-                if (($email = $activityDetails->getProfileAttribute('email_address'))) {
-                    $byMail = user_load_by_mail($email);
-                    if ($byMail) {
-                        $drupalYotiUid = $byMail->uid;
-                        $this->createYotiUser($drupalYotiUid, $activityDetails);
+                if (!empty($config['connect_email'])) {
+                    if (($email = $activityDetails->getProfileAttribute('email_address'))) {
+                        $byMail = user_load_by_mail($email);
+                        if ($byMail) {
+                            $drupalYotiUid = $byMail->uid;
+                            $this->createYotiUser($drupalYotiUid, $activityDetails);
+                        }
                     }
                 }
 
+                // create new user if option is enabled
                 if (!$drupalYotiUid) {
                     if (empty($config['only_existing'])) {
                         try {
