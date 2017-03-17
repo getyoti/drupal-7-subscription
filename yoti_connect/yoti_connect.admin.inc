@@ -43,7 +43,7 @@ function yoti_connect_api_keys_settings($form, &$form_state) {
     '#description' => t('Copy the SDK ID of your Yoti App here'),
   );
 
-    $form['yoti_connect_settings']['success_url'] = array(
+    $form['yoti_connect_settings']['yoti_success_url'] = array(
         '#type' => 'textfield',
         '#required' => TRUE,
         '#title' => t('Success URL'),
@@ -51,11 +51,11 @@ function yoti_connect_api_keys_settings($form, &$form_state) {
         '#description' => t('Redirect users here if they successfully login with Yoti'),
     );
 
-    $form['yoti_connect_settings']['fail_url'] = array(
+    $form['yoti_connect_settings']['yoti_fail_url'] = array(
         '#type' => 'textfield',
         '#required' => TRUE,
         '#title' => t('Fail URL'),
-        '#default_value' => variable_get('yoti_fail_url', '/user'),
+        '#default_value' => variable_get('yoti_fail_url', '/'),
         '#description' => t('Redirect users here if they were unable to login with Yoti'),
     );
 
