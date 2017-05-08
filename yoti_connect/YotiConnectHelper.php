@@ -363,6 +363,7 @@ class YotiConnectHelper
         }
         $config = array(
             'yoti_app_id' => variable_get('yoti_app_id'),
+            'yoti_scenario_id' => variable_get('yoti_scenario_id'),
             'yoti_sdk_id' => variable_get('yoti_sdk_id'),
             'only_existing' => variable_get('only_existing'),
             'yoti_success_url' => variable_get('yoti_success_url', '/user'),
