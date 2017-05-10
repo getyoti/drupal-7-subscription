@@ -79,3 +79,42 @@ function yoti_connect_binFile()
     header('Content-Length: ' . filesize($file));
     readfile($file);
 }
+
+function yoti_connect_register($form, &$form_state)
+{
+    user_account_form_validate($form, $form_state);
+
+    // todo: enable this on completion
+//    if (empty($_SESSION['yoti-register'])) {
+//        drupal_goto();
+//    }
+
+    $form['some_text'] = array(
+        '#markup' => '<div class="messages warning" style="margin: 0 0 15px 0">Please enter a username and password to connect with your Yoti Account</div>',
+    );
+
+    $form['username'] = array(
+        '#type' => 'textfield',
+        '#required' => true,
+        '#title' => t('Username'),
+        '#default_value' => variable_get('username'),
+        '#attributes' => array('autocomplete' => 'off'),
+    );
+
+    $form['password'] = array(
+        '#type' => 'password',
+        '#required' => true,
+        '#title' => t('Password'),
+        '#default_value' => variable_get('password'),
+        '#attributes' => array('autocomplete' => 'off'),
+    );
+
+    $form['submit_button'] = array(
+        '#type' => 'submit',
+        '#value' => t('Create Account'),
+    );
+
+    return $form;
+}
+
+function change_pwd_page_form_submit
