@@ -80,41 +80,35 @@ function yoti_connect_binFile()
     readfile($file);
 }
 
+function yoti_connect_user_presave(&$edit, $account, $category)
+{
+    exit('created yoti user successfull');
+}
+
 function yoti_connect_register($form, &$form_state)
 {
-    user_account_form_validate($form, $form_state);
-
     // todo: enable this on completion
 //    if (empty($_SESSION['yoti-register'])) {
 //        drupal_goto();
 //    }
 
     $form['some_text'] = array(
+        '#weight' => -11000,
         '#markup' => '<div class="messages warning" style="margin: 0 0 15px 0">Please enter a username and password to connect with your Yoti Account</div>',
     );
 
-    $form['username'] = array(
-        '#type' => 'textfield',
-        '#required' => true,
-        '#title' => t('Username'),
-        '#default_value' => variable_get('username'),
-        '#attributes' => array('autocomplete' => 'off'),
-    );
+    $form['#user'] = drupal_anonymous_user();
+    $form['#user_category'] = 'register';
 
-    $form['password'] = array(
-        '#type' => 'password',
-        '#required' => true,
-        '#title' => t('Password'),
-        '#default_value' => variable_get('password'),
-        '#attributes' => array('autocomplete' => 'off'),
-    );
+    $form['#attached']['library'][] = array('system', 'jquery.cookie');
+    $form['#attributes']['class'][] = 'user-info-from-cookie';
 
-    $form['submit_button'] = array(
+    user_account_form($form, $form_state);
+
+    $form['actions'] = array('#type' => 'actions');
+    $form['actions']['submit'] = array(
         '#type' => 'submit',
-        '#value' => t('Create Account'),
+        '#value' => t('Create new account'),
     );
-
     return $form;
 }
-
-function change_pwd_page_form_submit
