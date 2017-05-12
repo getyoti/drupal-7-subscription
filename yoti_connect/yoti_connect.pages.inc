@@ -80,35 +80,27 @@ function yoti_connect_binFile()
     readfile($file);
 }
 
-function yoti_connect_user_presave(&$edit, $account, $category)
+function yoti_connect_register_user_insert(&$edit, $account, $category)
 {
     exit('created yoti user successfull');
 }
 
 function yoti_connect_register($form, &$form_state)
 {
-    // todo: enable this on completion
-//    if (empty($_SESSION['yoti-register'])) {
-//        drupal_goto();
-//    }
-
     $form['some_text'] = array(
         '#weight' => -11000,
         '#markup' => '<div class="messages warning" style="margin: 0 0 15px 0">Please enter a username and password to connect with your Yoti Account</div>',
     );
 
-    $form['#user'] = drupal_anonymous_user();
-    $form['#user_category'] = 'register';
+    return user_register_form($form, $form_state);
+}
 
-    $form['#attached']['library'][] = array('system', 'jquery.cookie');
-    $form['#attributes']['class'][] = 'user-info-from-cookie';
+function yoti_connect_register_validate($form, &$form_state)
+{
+    user_register_validate($form, $form_state);
+}
 
-    user_account_form($form, $form_state);
-
-    $form['actions'] = array('#type' => 'actions');
-    $form['actions']['submit'] = array(
-        '#type' => 'submit',
-        '#value' => t('Create new account'),
-    );
-    return $form;
+function yoti_connect_register_submit($form, &$form_state)
+{
+    user_register_submit($form, $form_state);
 }
