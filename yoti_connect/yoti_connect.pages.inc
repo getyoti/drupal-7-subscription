@@ -80,13 +80,31 @@ function yoti_connect_binFile()
     readfile($file);
 }
 
-function yoti_connect_register_user_insert(&$edit, $account, $category)
+/**
+ * Implements hook_user_insert().
+ */
+function yoti_connect_user_insert(&$edit, $account, $category)
 {
-    exit('created yoti user successfull');
+    $activityDetails = YotiConnectHelper::getYotiUserFromStore();
+    if (!$activityDetails) {
+        return;
+    }
+
+    // link account
+    $helper = new YotiConnectHelper();
+    $helper->createYotiUser($account->uid, $activityDetails);
+
+    // remove session
+    YotiConnectHelper::clearYotiUserStore();
 }
 
 function yoti_connect_register($form, &$form_state)
 {
+    // don't allow unless session
+    if (!YotiConnectHelper::getYotiUserFromStore()) {
+        drupal_goto();
+    }
+
     $form['some_text'] = array(
         '#weight' => -11000,
         '#markup' => '<div class="messages warning" style="margin: 0 0 15px 0">Please enter a username and password to connect with your Yoti Account</div>',
