@@ -146,6 +146,22 @@ function yoti_connect_block_view($delta = '')
         return $block;
     }
 
+    $script = [];
+
+    // if connect url starts with 'https://staging' then we are in staging mode
+    $isStaging = strpos(\Yoti\YotiClient::CONNECT_BASE_URL, 'https://staging') === 0;
+    if ($isStaging)
+    {
+        // base url for connect
+        $baseUrl = preg_replace('/^(.+)\/connect$/', '$1', \Yoti\YotiClient::CONNECT_BASE_URL);
+
+        $script[] = sprintf('_ybg.config.qr = "%s/qr/";', $baseUrl);
+        $script[] = sprintf('_ybg.config.service = "%s/connect/";', $baseUrl);
+    }
+
+    // add init()
+    $script[] = '_ybg.init();';
+
     $linkButton = '<span
             data-yoti-application-id="' . $config['yoti_app_id'] . '"
             data-yoti-type="inline"
@@ -153,10 +169,7 @@ function yoti_connect_block_view($delta = '')
             data-size="small">
             %s
         </span>
-        <script>
-            _ybg.config.service = "' . \Yoti\YotiClient::CONNECT_BASE_URL . '/";
-            _ybg.init();
-        </script>';
+        <script>' . implode("\r\n", $script) . '</script>';
 
     if (!$user->uid)
     {
@@ -207,14 +220,15 @@ function yoti_connect_menu()
       'file' => 'yoti_connect.pages.inc',
     );*/
 
-    //    $items['yoti-connect/link'] = array(
-    //        'title' => t('Yoti Connect'),
-    //        'title callback' => 'yoti_connect_button',
-    //        'page callback' => 'yoti_connect_link',
-    //        'access callback' => 'no_yoti_login', //'user_is_anonymous user_is_logged_in',
-    ////    'type' => MENU_NORMAL_ITEM,//MENU_CALLBACK,
-    //        'file' => 'yoti_connect.pages.inc',
-    //    );
+    $items['yoti-connect/link'] = array(
+//        'title' => t('Yoti Connect'),
+//        'title callback' => 'yoti_connect_button',
+        'page callback' => 'yoti_connect_link',
+        'access callback' => 'no_yoti_login', //'user_is_anonymous user_is_logged_in',
+        //    'type' => MENU_NORMAL_ITEM,//MENU_CALLBACK,
+        'type' => MENU_CALLBACK,
+        'file' => 'yoti_connect.pages.inc',
+    );
 
     $items['yoti-connect/register'] = array(
         'page callback' => 'drupal_get_form',
