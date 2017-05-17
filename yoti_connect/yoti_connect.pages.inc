@@ -83,7 +83,7 @@ function yoti_connect_binFile()
 /**
  * Implements hook_user_insert().
  */
-function yoti_connect_user_insert(&$edit, $account, $category)
+function yoti_connect_user_login(&$edit, $account)
 {
     $activityDetails = YotiConnectHelper::getYotiUserFromStore();
     if (!$activityDetails) {
@@ -110,15 +110,10 @@ function yoti_connect_register($form, &$form_state)
         '#markup' => '<div class="messages warning" style="margin: 0 0 15px 0">Please enter a username and password to connect with your Yoti Account</div>',
     );
 
-    return user_register_form($form, $form_state);
-}
-
-function yoti_connect_register_validate($form, &$form_state)
-{
-    user_register_validate($form, $form_state);
+    return user_login($form, $form_state);
 }
 
 function yoti_connect_register_submit($form, &$form_state)
 {
-    user_register_submit($form, $form_state);
+    user_login_submit($form, $form_state);
 }

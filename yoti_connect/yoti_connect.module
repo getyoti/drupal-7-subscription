@@ -161,7 +161,6 @@ function yoti_connect_block_view($delta = '')
 
     // add init()
     $script[] = '_ybg.init();';
-
     $linkButton = '<span
             data-yoti-application-id="' . $config['yoti_app_id'] . '"
             data-yoti-type="inline"
