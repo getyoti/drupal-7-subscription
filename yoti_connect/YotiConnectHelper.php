@@ -1,4 +1,5 @@
 <?php
+
 use Yoti\ActivityDetails;
 use Yoti\YotiClient;
 
@@ -94,13 +95,12 @@ class YotiConnectHelper
         // if user isn't logged in
         if (!$currentUser->uid)
         {
-
             // register new user
             if (!$drupalYotiUid)
             {
                 $errMsg = null;
 
-                // attempt to get their user id by email passed from yoti
+                // attempt to connect by email
                 if (!empty($config['connect_email']))
                 {
                     if (($email = $activityDetails->getProfileAttribute('email_address')))
@@ -114,16 +114,15 @@ class YotiConnectHelper
                     }
                 }
 
-                // create new user if option is enabled
+                // if config only existing enabled then check if user exists, if not then redirect
+                // to login page
                 if (!$drupalYotiUid)
                 {
-                    if (empty($config['only_existing']))
+                    if (empty($config['yoti_only_existing']))
                     {
                         try
                         {
-                            self::storeYotiUser($activityDetails);
-                            drupal_goto('/yoti-connect/register');
-                            //                            $drupalYotiUid = $this->createUser($activityDetails);
+                            $drupalYotiUid = $this->createUser($activityDetails);
                         }
                         catch (Exception $e)
                         {
@@ -132,7 +131,8 @@ class YotiConnectHelper
                     }
                     else
                     {
-                        $errMsg = "Drupal user doesn't exist";
+                        self::storeYotiUser($activityDetails);
+                        drupal_goto('/yoti-connect/register');
                     }
                 }
 
@@ -424,7 +424,7 @@ class YotiConnectHelper
             'yoti_app_id' => variable_get('yoti_app_id'),
             'yoti_scenario_id' => variable_get('yoti_scenario_id'),
             'yoti_sdk_id' => variable_get('yoti_sdk_id'),
-            'only_existing' => variable_get('only_existing'),
+            'yoti_only_existing' => variable_get('yoti_only_existing'),
             'yoti_success_url' => variable_get('yoti_success_url', '/user'),
             'yoti_fail_url' => variable_get('yoti_fail_url', '/'),
             'connect_email' => variable_get('connect_email'),

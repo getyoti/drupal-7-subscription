@@ -220,8 +220,8 @@ function yoti_connect_menu()
     );*/
 
     $items['yoti-connect/link'] = array(
-//        'title' => t('Yoti Connect'),
-//        'title callback' => 'yoti_connect_button',
+        //        'title' => t('Yoti Connect'),
+        //        'title callback' => 'yoti_connect_button',
         'page callback' => 'yoti_connect_link',
         'access callback' => 'no_yoti_login', //'user_is_anonymous user_is_logged_in',
         //    'type' => MENU_NORMAL_ITEM,//MENU_CALLBACK,
@@ -243,7 +243,7 @@ function yoti_connect_menu()
         //        'title callback' => 'yoti_connect_button',
         'page callback' => 'yoti_connect_unlink',
         'access callback' => 'has_yoti_login', //'user_is_anonymous user_is_logged_in',
-        //    'type' => MENU_NORMAL_ITEM,//MENU_CALLBACK,
+        'type' => MENU_CALLBACK,//MENU_CALLBACK,
         'file' => 'yoti_connect.pages.inc',
     );
 

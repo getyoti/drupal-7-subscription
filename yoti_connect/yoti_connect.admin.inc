@@ -82,10 +82,10 @@ function yoti_connect_api_keys_settings($form, &$form_state) {
     ),
   );
 
-  $form['yoti_connect_settings']['only_existing'] = array(
+  $form['yoti_connect_settings']['yoti_only_existing'] = array(
     '#type' => 'checkbox',
     '#title' => t('Only allow existing Drupal users to link their Yoti account'),
-    '#default_value' => variable_get('only_existing'),
+    '#default_value' => variable_get('yoti_only_existing'),
 //    '#description' => t('Copy the SDK ID of your Yoti App here'),
   );
 

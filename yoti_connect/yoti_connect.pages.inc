@@ -95,7 +95,7 @@ function yoti_connect_binFile()
 function yoti_connect_user_login(&$edit, $account)
 {
     $activityDetails = YotiConnectHelper::getYotiUserFromStore();
-    if ($activityDetails && !empty($_SESSION['yoti_link']))
+    if ($activityDetails && empty($_SESSION['yoti_nolink']))
     {
         // link account
         $helper = new YotiConnectHelper();
@@ -103,7 +103,7 @@ function yoti_connect_user_login(&$edit, $account)
     }
 
     // remove session
-    unset($_SESSION['yoti_link']);
+    unset($_SESSION['yoti_nolink']);
     YotiConnectHelper::clearYotiUserStore();
 }
 
@@ -120,24 +120,29 @@ function yoti_connect_register($form, &$form_state)
 //        '#markup' => '<div class="messages warning" style="margin: 0 0 15px 0">Please enter a username and password to connect with your Yoti Account</div>',
 //    );
 
-    $form['yoti_link'] = array(
+    $form['yoti_nolink'] = array(
         '#weight' => -1000,
 //        '#type' => 'checkbox',
 //        '#title' => t('Check this box to skip linking Yoti account to Drupal and simply login'),
-        '#default_value' => variable_get('yoti_link'),
+        '#default_value' => variable_get('yoti_nolink'),
         '#markup' => '<div class="form-item form-type-checkbox form-item-yoti-link messages warning" style="margin: 0 0 15px 0">
-                <div><b>Warning: You are able to link your Drupal account to your Yoti account</b></div>
-                <input type="checkbox" id="edit-yoti-link" name="yoti_link" value="1" class="form-checkbox"'.(!empty($form_state['input']['yoti_link']) ? ' checked="checked"' : '').'>
+                <div><b>Warning: You are about to link your Drupal account to your Yoti account</b></div>
+                <input type="checkbox" id="edit-yoti-link" name="yoti_nolink" value="1" class="form-checkbox"'.(!empty($form_state['input']['yoti_nolink']) ? ' checked="checked"' : '').'>
                 <label class="option" for="edit-yoti-link">Check this box to stop this from happening and instead login regularly.</label>
             </div>'
         //    '#description' => t('Copy the SDK ID of your Yoti App here'),
     );
 
-    return user_login($form, $form_state);
+    $form =  user_login($form, $form_state);
+
+    $form['name']['#title'] = t('Your Drupal Username');
+    $form['pass']['#title'] = t('Your Drupal Password');
+
+    return $form;
 }
 
 function yoti_connect_register_submit($form, &$form_state)
 {
-    $_SESSION['yoti_link'] = !empty($form_state['input']['yoti_link']);
+    $_SESSION['yoti_nolink'] = !empty($form_state['input']['yoti_nolink']);
     user_login_submit($form, $form_state);
 }
