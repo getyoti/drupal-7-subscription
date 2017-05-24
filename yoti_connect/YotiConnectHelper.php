@@ -101,7 +101,7 @@ class YotiConnectHelper
                 $errMsg = null;
 
                 // attempt to connect by email
-                if (!empty($config['connect_email']))
+                if (!empty($config['yoti_connect_email']))
                 {
                     if (($email = $activityDetails->getProfileAttribute('email_address')))
                     {
@@ -427,7 +427,7 @@ class YotiConnectHelper
             'yoti_only_existing' => variable_get('yoti_only_existing'),
             'yoti_success_url' => variable_get('yoti_success_url', '/user'),
             'yoti_fail_url' => variable_get('yoti_fail_url', '/'),
-            'connect_email' => variable_get('connect_email'),
+            'yoti_connect_email' => variable_get('yoti_connect_email'),
             'yoti_pem' => array(
                 'name' => $name,
                 'contents' => $contents,
