@@ -55,7 +55,7 @@ class YotiConnectHelper
         // if no token then ignore
         if (!$token)
         {
-            $this->setFlash('Could not get Yoti token.', 'error');
+            self::setFlash('Could not get Yoti token.', 'error');
 
             return false;
         }
@@ -69,7 +69,7 @@ class YotiConnectHelper
         }
         catch (Exception $e)
         {
-            $this->setFlash('Yoti could not successfully connect to your account.', 'error');
+            self::setFlash('Yoti could not successfully connect to your account.', 'error');
 
             return false;
         }
@@ -77,7 +77,7 @@ class YotiConnectHelper
         // if unsuccessful then bail
         if ($yotiClient->getOutcome() != YotiClient::OUTCOME_SUCCESS)
         {
-            $this->setFlash('Yoti could not successfully connect to your account.', 'error');
+            self::setFlash('Yoti could not successfully connect to your account.', 'error');
 
             return false;
         }
@@ -140,7 +140,7 @@ class YotiConnectHelper
                 if (!$drupalYotiUid)
                 {
                     // if couldn't create user then bail
-                    $this->setFlash("Could not create user account. $errMsg", 'error');
+                    self::setFlash("Could not create user account. $errMsg", 'error');
 
                     return false;
                 }
@@ -154,13 +154,13 @@ class YotiConnectHelper
             // if current logged in user doesn't match yoti user registered then bail
             if ($drupalYotiUid && $currentUser->uid != $drupalYotiUid)
             {
-                $this->setFlash('This Yoti account is already linked to another account.', 'error');
+                self::setFlash('This Yoti account is already linked to another account.', 'error');
             }
             // if joomla user not found in yoti table then create new yoti user
             elseif (!$drupalYotiUid)
             {
                 $this->createYotiUser($currentUser->uid, $activityDetails);
-                $this->setFlash('Your Yoti account has been successfully linked.');
+                self::setFlash('Your Yoti account has been successfully linked.');
             }
         }
 
@@ -215,7 +215,7 @@ class YotiConnectHelper
      * @param $message
      * @param string $type
      */
-    private function setFlash($message, $type = 'status')
+    public static function setFlash($message, $type = 'status')
     {
         drupal_set_message($message, $type);
     }

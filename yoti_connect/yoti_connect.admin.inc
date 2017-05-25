@@ -89,10 +89,10 @@ function yoti_connect_api_keys_settings($form, &$form_state) {
 //    '#description' => t('Copy the SDK ID of your Yoti App here'),
   );
 
-  $form['yoti_connect_settings']['connect_email'] = array(
+  $form['yoti_connect_settings']['yoti_connect_email'] = array(
     '#type' => 'checkbox',
     '#title' => t('Attempt to link Yoti email address with Drupal account for first time users'),
-    '#default_value' => variable_get('connect_email'),
+    '#default_value' => variable_get('yoti_connect_email'),
 //    '#description' => t('Copy the SDK ID of your Yoti App here'),
   );
 
