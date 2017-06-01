@@ -18,8 +18,8 @@ function yoti_map_params()
         ActivityDetails::ATTR_FAMILY_NAME => 'Family name',
         ActivityDetails::ATTR_DATE_OF_BIRTH => 'Date of birth',
         ActivityDetails::ATTR_NATIONALITY => 'Nationality',
-        'gender' => 'Gender',
-        'email_address' => 'Email',
+        ActivityDetails::ATTR_GENDER => 'Gender',
+        ActivityDetails::ATTR_EMAIL_ADDRESS => 'Email',
     );
 }
 
